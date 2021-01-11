@@ -69,3 +69,14 @@ test('submitting with invalid month shows error', async () => {
   // Assert
   await waitFor(() => screen.getByText(EXPIRY_ERROR));
 });
+
+test('submitting with invalid year shows error', async () => {
+  // Arrange
+  userEvent.type(getExpiryInput(), '11/0');
+
+  // Act
+  fireEvent.click(screen.getByLabelText('submit'));
+
+  // Assert
+  await waitFor(() => screen.getByText(EXPIRY_ERROR));
+});
