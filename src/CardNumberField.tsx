@@ -11,6 +11,7 @@ const CardNumberField = () => {
     <TextField label="Credit card number" fullWidth variant="outlined" value={draftCardNumber}
                onChange={e => setDraftCardNumber(e.target.value)} error={!!cardNumberError}
                helperText={cardNumberError} onFocus={() => setCardNumberError('')}
+               inputMode="decimal"
                InputProps={{
                  startAdornment: (
                    <InputAdornment position="start">

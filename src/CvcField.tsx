@@ -11,7 +11,8 @@ const CvcField = () => {
     <TextField label="CVC" fullWidth variant="outlined" value={draftCvc} error={!!cvcError}
                helperText={cvcError || 'On rear of card'}
                onFocus={() => setCvcError('')}
-               onChange={e => setDraftCvc(e.target.value)}
+               onChange={e => setDraftCvc(e.target.value.replaceAll(/\D/g, ''))}
+               inputMode="decimal"
                InputProps={{
                  startAdornment: (
                    <InputAdornment position="start">
