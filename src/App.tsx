@@ -3,7 +3,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import RegisterCardForm from './RegisterCardForm';
+import RegisterCard from './RegisterCard';
 import lime from '@material-ui/core/colors/lime';
 import MenuPage from './MenuPage';
 
@@ -19,7 +19,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/" exact>
-            <RegisterCardForm/>
+            <RegisterCard/>
           </Route>
           <Route path="/menu" exact>
             <MenuPage/>
