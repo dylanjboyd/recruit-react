@@ -24,7 +24,7 @@ const ErrorSubmissionDialog: React.FC<IErrorSubmissionDialogProps> = (props) => 
         <DialogContentText>{isSubmitting ? 'This shouldn\'t take long.' : errorMessage}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={clearErrorMessage}>Cancel</Button>
+        <Button onClick={clearErrorMessage}>Go back</Button>
         <Button onClick={retry} color="secondary">Retry</Button>
       </DialogActions>
     </Dialog>
