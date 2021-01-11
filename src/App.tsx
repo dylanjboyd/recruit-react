@@ -1,20 +1,33 @@
 import React from 'react';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import RegisterCardForm from './RegisterCardForm';
+import lime from '@material-ui/core/colors/lime';
 import MenuPage from './MenuPage';
 
-const App = () => (
-  <Router>
-    <Switch>
-      <Route path="/">
-        <RegisterCardForm/>
-      </Route>
-      <Route path="/menu">
-        <MenuPage/>
-      </Route>
-    </Switch>
-  </Router>
-);
+const App = () => {
+  const theme = createMuiTheme({
+    palette: {
+      primary: lime,
+    },
+  });
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Switch>
+          <Route path="/">
+            <RegisterCardForm/>
+          </Route>
+          <Route path="/menu">
+            <MenuPage/>
+          </Route>
+        </Switch>
+      </Router>
+    </ThemeProvider>
+  );
+};
 
 export default App;
