@@ -10,23 +10,25 @@ interface IErrorSubmissionDialogProps {
   errorMessage: string;
   clearErrorMessage: () => any;
   retry: () => any;
+  isSubmitting: boolean;
 }
 
-const ErrorSubmissionDialog: React.FC<IErrorSubmissionDialogProps> = ({
-                                                                        errorMessage,
-                                                                        retry,
-                                                                        clearErrorMessage
-                                                                      }) => (
-  <Dialog open={!!errorMessage}>
-    <DialogTitle>Failed to register card.</DialogTitle>
-    <DialogContent>
-      <DialogContentText>{errorMessage}</DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={clearErrorMessage}>Cancel</Button>
-      <Button onClick={retry} color="secondary">Retry</Button>
-    </DialogActions>
-  </Dialog>
-);
+const ErrorSubmissionDialog: React.FC<IErrorSubmissionDialogProps> = (props) => {
+  const {
+    errorMessage, retry, clearErrorMessage, isSubmitting
+  } = props;
+  return (
+    <Dialog open={!!errorMessage} maxWidth="sm" fullWidth>
+      <DialogTitle>{isSubmitting ? 'Submitting...' : 'Failed to register card.'}</DialogTitle>
+      <DialogContent>
+        <DialogContentText>{isSubmitting ? 'This shouldn\'t take long.' : errorMessage}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={clearErrorMessage}>Cancel</Button>
+        <Button onClick={retry} color="secondary">Retry</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default ErrorSubmissionDialog;

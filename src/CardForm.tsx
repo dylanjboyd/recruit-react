@@ -8,7 +8,7 @@ import { Typography } from '@material-ui/core';
 import User from './domain/User';
 import { makeStyles } from '@material-ui/core/styles';
 import Card, { isCardNumberValid, isCvcValid, isExpiryValid } from './domain/Card';
-import { registerCard } from './domain/recruit-api';
+import { registerCard } from './api/recruit-api';
 import SubmissionErrorDialog from './SubmissionErrorDialog';
 
 const useStyles = makeStyles(({ spacing }) => ({
@@ -71,6 +71,7 @@ const CardForm = () => {
   return (
     <div>
       <SubmissionErrorDialog errorMessage={submissionError} retry={submit}
+                             isSubmitting={isSubmitting}
                              clearErrorMessage={() => setSubmissionError('')}/>
       <Typography variant="h5"
                   className={classes.welcomeMessage}>Welcome, {user.firstName}.</Typography>
