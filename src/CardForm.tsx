@@ -4,7 +4,8 @@ import Grid from '@material-ui/core/Grid';
 import ExpiryField from './ExpiryField';
 import CardNumberField from './CardNumberField';
 import CvcField from './CvcField';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
 import User from './domain/User';
 import { makeStyles } from '@material-ui/core/styles';
 import Card, { isCardNumberValid, isCvcValid, isExpiryValid } from './domain/Card';
@@ -24,6 +25,7 @@ const CVC_INVALID = 'CVC must be a valid number';
 
 const CardForm = () => {
   const [user, setUser] = React.useState(new User(''));
+  const [isSnackbarOpen, setSnackbarOpen] = React.useState(false);
 
   const [submissionError, setSubmissionError] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -34,31 +36,49 @@ const CardForm = () => {
   const [draftCvc, setDraftCvc] = React.useState('');
   const [cvcError, setCvcError] = React.useState('');
 
-  const [draftExpiryMonth, setDraftExpiryMonth] = React.useState(0);
-  const [draftExpiryYear, setDraftExpiryYear] = React.useState(0);
+  const [draftExpiry, setDraftExpiry] = React.useState('');
   const [expiryError, setExpiryError] = React.useState('');
 
-  function resetForm() {
+  const resetForm = () => {
     setDraftCardNumber('');
     setDraftCvc('');
-    setDraftExpiryMonth(-1);
-    setDraftExpiryYear(-1);
-  }
+    setDraftExpiry('');
+  };
+
+  const setExpiryFromDisplay = (newValue: string) => {
+
+    // Strip all non-digit values from display string
+    newValue = newValue.replaceAll(/[^\d/]/g, '')
+      .replaceAll('//', '/');
+
+    setDraftExpiry(prevState => {
+      if (prevState.length === 1 && newValue.length === 2) {
+        return newValue + '/';
+      }
+
+      return newValue.substr(0, 7);
+    });
+  };
 
   const submit = async () => {
+    const splitExpiryString = draftExpiry.split('/');
+    const expiryMonth = Number(splitExpiryString[0]) || -1;
+    const expiryYear = splitExpiryString.length > 1 ? Number(splitExpiryString[1]) : -1;
+
     let cardNumberValid = isCardNumberValid(draftCardNumber);
     setCardNumberError(cardNumberValid ? '' : CARD_NUMBER_INVALID);
-    let expiryValid = isExpiryValid(draftExpiryMonth, draftExpiryYear);
+    let expiryValid = isExpiryValid(expiryMonth, expiryYear);
     setExpiryError(expiryValid ? '' : EXPIRY_INVALID);
     let cvcValid = draftCvc && isCvcValid(Number(draftCvc));
     setCvcError(cvcValid ? '' : CVC_INVALID);
 
     if (!cardNumberValid || !cvcValid || !expiryValid || !user.firstName) return;
 
-    const card = new Card(draftCardNumber, Number(draftCvc), draftExpiryMonth, draftExpiryYear, user.firstName);
+    const card = new Card(draftCardNumber, Number(draftCvc), expiryMonth, expiryYear, user.firstName);
     setIsSubmitting(true);
     try {
       await registerCard(card);
+      setSnackbarOpen(true);
       resetForm();
     } catch (e) {
       setSubmissionError(e.response?.data || e.toString());
@@ -79,6 +99,9 @@ const CardForm = () => {
       <NameDialog firstName={user.firstName}
                   setFirstName={firstName => setUser(new User(firstName))}/>
 
+      <Snackbar open={isSnackbarOpen} autoHideDuration={6000}
+                onClose={() => setSnackbarOpen(false)} message="Credit card registered."/>
+
       <Typography variant="h5"
                   className={classes.welcomeMessage}> Welcome, {user.firstName || 'user'}.</Typography>
       <Grid container spacing={3}>
@@ -90,8 +113,8 @@ const CardForm = () => {
           <CvcField cvc={draftCvc} setCvc={setDraftCvc} cvcError={cvcError}/>
         </Grid>
         <Grid item xs={6}>
-          <ExpiryField expiryError={expiryError} setExpiryMonth={setDraftExpiryMonth}
-                       setExpiryYear={setDraftExpiryYear}/>
+          <ExpiryField expiryError={expiryError} expiry={draftExpiry}
+                       setExpiry={setExpiryFromDisplay}/>
         </Grid>
         <Grid item xs={12}>
           <Button color="primary" variant="contained" fullWidth onClick={submit}
