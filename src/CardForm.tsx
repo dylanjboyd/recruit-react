@@ -7,7 +7,7 @@ import CvcField from './CvcField';
 import { Typography } from '@material-ui/core';
 import User from './domain/User';
 import { makeStyles } from '@material-ui/core/styles';
-import Card, { isCardNumberValid } from './domain/Card';
+import Card, { isCardNumberValid, isCvcValid, isExpiryValid } from './domain/Card';
 import { registerCard } from './domain/recruit-api';
 
 const useStyles = makeStyles(({ spacing }) => ({
@@ -17,6 +17,8 @@ const useStyles = makeStyles(({ spacing }) => ({
 }));
 
 const CARD_NUMBER_INVALID = 'Card number must be a valid number with at least one digit.';
+const EXPIRY_INVALID = 'Expiry date must be valid and complete.';
+const CVC_INVALID = 'CVC must be a valid number';
 
 const CardForm = () => {
   const user = new User('User');
@@ -33,6 +35,8 @@ const CardForm = () => {
 
   const submit = async () => {
     setCardNumberError(isCardNumberValid(draftCardNumber) ? '' : CARD_NUMBER_INVALID);
+    setExpiryError(isExpiryValid(draftExpiryMonth, draftExpiryYear) ? '' : EXPIRY_INVALID);
+    setCvcError(draftCvc && isCvcValid(Number(draftCvc)) ? '' : CVC_INVALID);
 
     if (cardNumberError || cvcError || expiryError) return;
 
