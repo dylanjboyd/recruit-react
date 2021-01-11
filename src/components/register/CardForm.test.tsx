@@ -58,3 +58,14 @@ test('submitting with missing expiry shows error', async () => {
   expect(screen.queryByText(CARD_NUMBER_ERROR)).not.toBeInTheDocument();
   expect(screen.queryByText(CVC_ERROR)).not.toBeInTheDocument();
 });
+
+test('submitting with invalid month shows error', async () => {
+  // Arrange
+  userEvent.type(getExpiryInput(), '99/1111');
+
+  // Act
+  fireEvent.click(screen.getByLabelText('submit'));
+
+  // Assert
+  await waitFor(() => screen.getByText(EXPIRY_ERROR));
+});
