@@ -2,6 +2,7 @@ import React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import { useHistory } from 'react-router-dom';
@@ -31,8 +32,8 @@ const TopBar: React.FC<ITopBarProps> = ({ isMenuMode }) => {
     <AppBar position="static">
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
-                    onClick={() => history.push('/menu')}>
-          <MenuIcon/>
+                    onClick={() => history.push(isMenuMode ? '/' : '/menu')}>
+          {isMenuMode ? <ArrowBackIcon/> : <MenuIcon/>}
         </IconButton>
         <Typography variant="h6" className={classes.title}>
           {isMenuMode ? 'Menu' : 'Register card form'}
