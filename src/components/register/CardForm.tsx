@@ -117,7 +117,7 @@ const CardForm = () => {
         </Grid>
         <Grid item xs={12}>
           <Button color="primary" variant="contained" fullWidth onClick={submit}
-                  disabled={isSubmitting}>Submit</Button>
+                  disabled={isSubmitting} aria-label="submit">Submit</Button>
         </Grid>
       </Grid>
     </div>

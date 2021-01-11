@@ -15,7 +15,7 @@ const CardNumberField: React.FC<ICardNumberProps> = (props) => {
   return (
     <TextField label="Credit card number" fullWidth variant="outlined" value={cardNumber}
                onChange={e => onCardNumberChange(e.target.value.replaceAll(/\D/g, ''))}
-               error={!!cardNumberError}
+               error={!!cardNumberError} id="credit-card-number"
                helperText={cardNumberError}
                inputMode="decimal"
                InputProps={{
