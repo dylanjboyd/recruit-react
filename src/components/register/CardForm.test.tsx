@@ -29,3 +29,16 @@ test('submitting with missing CVC shows error', async () => {
   // Assert
   await waitFor(() => screen.getByText('CVC must be a valid number.'));
 });
+
+test('submitting with missing expiry shows error', async () => {
+  // Arrange
+  renderInRouter('/');
+  userEvent.type(screen.getByLabelText('Credit card number'), '11');
+  userEvent.type(screen.getByLabelText('CVC'), '11');
+
+  // Act
+  fireEvent.click(screen.getByLabelText('submit'));
+
+  // Assert
+  await waitFor(() => screen.getByText('Expiry date must be valid and complete.'));
+});
