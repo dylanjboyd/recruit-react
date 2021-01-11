@@ -16,8 +16,6 @@ import { UserContext } from '../../user-context';
 const useStyles = makeStyles(({ spacing }) => ({
   welcomeMessage: {
     paddingBottom: spacing(5)
-  }, root: {
-    padding: spacing(3)
   }
 }));
 
@@ -92,7 +90,7 @@ const CardForm = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div>
       <SubmissionErrorDialog errorMessage={submissionError} retry={submit}
                              isSubmitting={isSubmitting}
                              clearErrorMessage={() => setSubmissionError('')}/>

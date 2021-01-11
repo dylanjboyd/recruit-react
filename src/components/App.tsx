@@ -1,5 +1,5 @@
 import React from 'react';
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import lime from '@material-ui/core/colors/lime';
@@ -9,6 +9,13 @@ import User from '../domain/User';
 import { UserContext } from '../user-context';
 import TopBar from './common/TopBar';
 import CardForm from './register/CardForm';
+import Container from '@material-ui/core/Container';
+
+const useStyles = makeStyles(({ spacing }) => ({
+  appContent: {
+    padding: spacing(2)
+  }
+}));
 
 const App = () => {
   const [user, setUser] = React.useState(new User(''));
@@ -18,20 +25,24 @@ const App = () => {
     },
   });
 
+  const classes = useStyles();
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <TopBar/>
-        <Switch>
-          <Route path="/" exact>
-            <UserContext.Provider value={{ user: user, setUser: (user: User) => setUser(user) }}>
-              <CardForm/>
-            </UserContext.Provider>
-          </Route>
-          <Route path="/menu" exact>
-            <MenuPage/>
-          </Route>
-        </Switch>
+        <Container maxWidth="sm" className={classes.appContent}>
+          <Switch>
+            <Route path="/" exact>
+              <UserContext.Provider value={{ user: user, setUser: (user: User) => setUser(user) }}>
+                <CardForm/>
+              </UserContext.Provider>
+            </Route>
+            <Route path="/menu" exact>
+              <MenuPage/>
+            </Route>
+          </Switch>
+        </Container>
       </Router>
     </ThemeProvider>
   );
