@@ -8,7 +8,8 @@ This Recruit front-end site has been implemented using:
 - axios for making HTTP requests.
 - React Testing Library and Jest for testing.
 
-Note: Without a running Recruit back-end, the site will load but you will be unable to register credit cards.
+Note: Without a running [Recruit back-end](https://github.com/dylanjboyd/recruit-backend/), the site will load, but you
+will be unable to register credit cards.
 
 ## Setup
 
@@ -20,6 +21,12 @@ To first perform a full build, run `npm run build` and deploy as desired.
 This site can be configured to point to a different back-end URL (but will otherwise default to the default URL). To do
 so, set the `REACT_APP_API_BASE_URL` to the URL of a running Recruit back-end *including the trailing slash*. If no
 modifications have been made to the back-end's default configuration, this will be `https://localhost:5001/`.
+
+### Adding Valid Cards
+
+To register cards, their card numbers must first be added as `ValidCards` in the back-end. This is not possible via the
+API for security and architecture reasons; refer to
+[Adding ValidCards](https://github.com/dylanjboyd/recruit-backend#adding-validcards) for more information.
 
 ## Testing
 
