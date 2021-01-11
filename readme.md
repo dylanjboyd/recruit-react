@@ -1,5 +1,7 @@
 # Frontend
 
+![Frontend screenshot](./screenshot-react.png)
+
 This Recruit front-end site has been implemented using:
 
 - create-react-app for setting up React's core files and dependencies.
