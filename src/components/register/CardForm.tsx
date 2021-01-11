@@ -78,6 +78,7 @@ const CardForm = () => {
     setIsSubmitting(true);
     try {
       await registerCard(card);
+      console.log(`Input values were:\n${JSON.stringify(card)}`);
       setSnackbarOpen(true);
       resetForm();
     } catch (e) {
