@@ -15,7 +15,7 @@ import { UserContext } from '../../user-context';
 
 const useStyles = makeStyles(({ spacing }) => ({
   welcomeMessage: {
-    paddingBottom: spacing(5)
+    padding: spacing(3, 0, 5)
   }
 }));
 
@@ -101,7 +101,7 @@ const CardForm = () => {
       <Snackbar open={isSnackbarOpen} autoHideDuration={6000}
                 onClose={() => setSnackbarOpen(false)} message="Credit card registered."/>
 
-      <Typography variant="h5"
+      <Typography variant="h5" color="textSecondary"
                   className={classes.welcomeMessage}> Welcome, {user.firstName || 'user'}.</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
