@@ -4,17 +4,30 @@ import Grid from '@material-ui/core/Grid';
 import ExpiryField from './ExpiryField';
 import CardNumberField from './CardNumberField';
 import CvcField from './CvcField';
+import { Typography } from '@material-ui/core';
+import User from './domain/User';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(({ spacing }) => ({
+  welcomeMessage: {
+    paddingBottom: spacing(5)
+  }
+}));
 
 const CardForm = () => {
+  const user = new User('User');
   const submit = () => {
     //   if (!isCardNumberValid(draftCardNumber)) {
     //     setCardNumberError('Card number must be a valid number with at least one digit.');
     //     return;
     //   }
   };
+  const classes = useStyles();
 
   return (
     <div>
+      <Typography variant="h5"
+                  className={classes.welcomeMessage}>Welcome, {user.firstName}.</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <CardNumberField/>
