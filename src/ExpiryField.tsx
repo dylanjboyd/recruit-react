@@ -15,7 +15,8 @@ const ExpiryField: React.FC<IExpiryFieldProps> = (props) => {
   const setExpiryFromDisplay = (newValue: string) => {
 
     // Strip all non-digit values from display string
-    newValue = newValue.replaceAll(/[^\d/]/g, '');
+    newValue = newValue.replaceAll(/[^\d/]/g, '')
+      .replaceAll('//', '/');
 
     setDraftExpiry(prevState => {
       if (prevState.length === 1 && newValue.length === 2) {

@@ -9,6 +9,7 @@ import User from './domain/User';
 import { makeStyles } from '@material-ui/core/styles';
 import Card, { isCardNumberValid, isCvcValid, isExpiryValid } from './domain/Card';
 import { registerCard } from './domain/recruit-api';
+import SubmissionErrorDialog from './SubmissionErrorDialog';
 
 const useStyles = makeStyles(({ spacing }) => ({
   welcomeMessage: {
@@ -23,6 +24,9 @@ const CVC_INVALID = 'CVC must be a valid number';
 const CardForm = () => {
   const user = new User('User');
 
+  const [submissionError, setSubmissionError] = React.useState('');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
   const [draftCardNumber, setDraftCardNumber] = React.useState('');
   const [cardNumberError, setCardNumberError] = React.useState('');
 
@@ -33,21 +37,41 @@ const CardForm = () => {
   const [draftExpiryYear, setDraftExpiryYear] = React.useState(0);
   const [expiryError, setExpiryError] = React.useState('');
 
-  const submit = async () => {
-    setCardNumberError(isCardNumberValid(draftCardNumber) ? '' : CARD_NUMBER_INVALID);
-    setExpiryError(isExpiryValid(draftExpiryMonth, draftExpiryYear) ? '' : EXPIRY_INVALID);
-    setCvcError(draftCvc && isCvcValid(Number(draftCvc)) ? '' : CVC_INVALID);
+  function resetForm() {
+    setDraftCardNumber('');
+    setDraftCvc('');
+    setDraftExpiryMonth(-1);
+    setDraftExpiryYear(-1);
+  }
 
-    if (cardNumberError || cvcError || expiryError) return;
+  const submit = async () => {
+    let cardNumberValid = isCardNumberValid(draftCardNumber);
+    setCardNumberError(cardNumberValid ? '' : CARD_NUMBER_INVALID);
+    let expiryValid = isExpiryValid(draftExpiryMonth, draftExpiryYear);
+    setExpiryError(expiryValid ? '' : EXPIRY_INVALID);
+    let cvcValid = draftCvc && isCvcValid(Number(draftCvc));
+    setCvcError(cvcValid ? '' : CVC_INVALID);
+
+    if (!cardNumberValid || !cvcValid || !expiryValid) return;
 
     const card = new Card(draftCardNumber, Number(draftCvc), draftExpiryMonth, draftExpiryYear);
-    await registerCard(card);
+    setIsSubmitting(true);
+    try {
+      await registerCard(card);
+      resetForm();
+    } catch (e) {
+      setSubmissionError(e.toString());
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const classes = useStyles();
 
   return (
     <div>
+      <SubmissionErrorDialog errorMessage={submissionError} retry={submit}
+                             clearErrorMessage={() => setSubmissionError('')}/>
       <Typography variant="h5"
                   className={classes.welcomeMessage}>Welcome, {user.firstName}.</Typography>
       <Grid container spacing={3}>
@@ -63,7 +87,8 @@ const CardForm = () => {
                        setExpiryYear={setDraftExpiryYear}/>
         </Grid>
         <Grid item xs={12}>
-          <Button color="primary" variant="contained" fullWidth onClick={submit}>Submit</Button>
+          <Button color="primary" variant="contained" fullWidth onClick={submit}
+                  disabled={isSubmitting}>Submit</Button>
         </Grid>
       </Grid>
     </div>
