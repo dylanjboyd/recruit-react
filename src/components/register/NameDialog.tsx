@@ -14,7 +14,7 @@ const NameDialog = () => {
   return <Dialog open={!user.firstName}>
     <DialogTitle>Introduce Yourself</DialogTitle>
     <DialogContent>
-      <TextField variant="outlined" value={draftName} id="first-name"
+      <TextField variant="outlined" value={draftName} id="first-name" color="secondary"
                  onChange={e => setDraftName(e.target.value)} label="First name"/>
     </DialogContent>
     <DialogActions>

@@ -15,7 +15,7 @@ const ExpiryField: React.FC<IExpiryFieldProps> = (props) => {
   return (
     <TextField label="Expiry" fullWidth variant="outlined" value={expiry}
                error={!!expiryError} helperText={expiryError || 'MM/YYYY'}
-               onChange={e => setExpiry(e.target.value)} id="expiry"
+               onChange={e => setExpiry(e.target.value)} id="expiry" color="secondary"
                InputProps={{
                  startAdornment: (
                    <InputAdornment position="start">
