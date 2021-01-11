@@ -7,6 +7,8 @@ import CvcField from './CvcField';
 import { Typography } from '@material-ui/core';
 import User from './domain/User';
 import { makeStyles } from '@material-ui/core/styles';
+import Card, { isCardNumberValid } from './domain/Card';
+import { registerCard } from './domain/recruit-api';
 
 const useStyles = makeStyles(({ spacing }) => ({
   welcomeMessage: {
@@ -14,14 +16,30 @@ const useStyles = makeStyles(({ spacing }) => ({
   }
 }));
 
+const CARD_NUMBER_INVALID = 'Card number must be a valid number with at least one digit.';
+
 const CardForm = () => {
   const user = new User('User');
-  const submit = () => {
-    //   if (!isCardNumberValid(draftCardNumber)) {
-    //     setCardNumberError('Card number must be a valid number with at least one digit.');
-    //     return;
-    //   }
+
+  const [draftCardNumber, setDraftCardNumber] = React.useState('');
+  const [cardNumberError, setCardNumberError] = React.useState('');
+
+  const [draftCvc, setDraftCvc] = React.useState('');
+  const [cvcError, setCvcError] = React.useState('');
+
+  const [draftExpiryMonth, setDraftExpiryMonth] = React.useState(0);
+  const [draftExpiryYear, setDraftExpiryYear] = React.useState(0);
+  const [expiryError, setExpiryError] = React.useState('');
+
+  const submit = async () => {
+    setCardNumberError(isCardNumberValid(draftCardNumber) ? '' : CARD_NUMBER_INVALID);
+
+    if (cardNumberError || cvcError || expiryError) return;
+
+    const card = new Card(draftCardNumber, Number(draftCvc), draftExpiryMonth, draftExpiryYear);
+    await registerCard(card);
   };
+
   const classes = useStyles();
 
   return (
@@ -30,13 +48,15 @@ const CardForm = () => {
                   className={classes.welcomeMessage}>Welcome, {user.firstName}.</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <CardNumberField/>
+          <CardNumberField cardNumber={draftCardNumber} cardNumberError={cardNumberError}
+                           onCardNumberChange={setDraftCardNumber}/>
         </Grid>
         <Grid item xs={6}>
-          <CvcField/>
+          <CvcField cvc={draftCvc} setCvc={setDraftCvc} cvcError={cvcError}/>
         </Grid>
         <Grid item xs={6}>
-          <ExpiryField/>
+          <ExpiryField expiryError={expiryError} setExpiryMonth={setDraftExpiryMonth}
+                       setExpiryYear={setDraftExpiryYear}/>
         </Grid>
         <Grid item xs={12}>
           <Button color="primary" variant="contained" fullWidth onClick={submit}>Submit</Button>

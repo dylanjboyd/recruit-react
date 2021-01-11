@@ -11,3 +11,6 @@ export default class Card {
     this.expiryYear = expiryYear;
   }
 }
+
+export const isCardNumberValid = (cardNumber: string) =>
+  cardNumber.length && cardNumber.match(/^\d+$/);

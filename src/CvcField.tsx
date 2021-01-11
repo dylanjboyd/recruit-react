@@ -3,15 +3,20 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import TextField from '@material-ui/core/TextField';
 
-const CvcField = () => {
-  const [draftCvc, setDraftCvc] = React.useState('');
-  const [cvcError, setCvcError] = React.useState('');
+interface ICvcFieldProps {
+  cvcError: string;
+  cvc: string;
+  setCvc: (cvc: string) => any;
+}
+
+const CvcField: React.FC<ICvcFieldProps> = (props) => {
+  const { cvcError, cvc, setCvc } = props;
 
   return (
-    <TextField label="CVC" fullWidth variant="outlined" value={draftCvc} error={!!cvcError}
+
+    <TextField label="CVC" fullWidth variant="outlined" value={cvc} error={!!cvcError}
                helperText={cvcError || 'On rear of card'}
-               onFocus={() => setCvcError('')}
-               onChange={e => setDraftCvc(e.target.value.replaceAll(/\D/g, ''))}
+               onChange={e => setCvc(e.target.value.replaceAll(/\D/g, ''))}
                inputMode="decimal"
                InputProps={{
                  startAdornment: (
@@ -21,6 +26,6 @@ const CvcField = () => {
                  )
                }}/>
   );
-}
+};
 
 export default CvcField;

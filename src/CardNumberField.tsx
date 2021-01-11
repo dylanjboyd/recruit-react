@@ -3,14 +3,20 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import TextField from '@material-ui/core/TextField';
 
-const CardNumberField = () => {
-  const [draftCardNumber, setDraftCardNumber] = React.useState('');
-  const [cardNumberError, setCardNumberError] = React.useState('');
+interface ICardNumberProps {
+  onCardNumberChange: (cardNumber: string) => any;
+  cardNumber: string;
+  cardNumberError: string;
+}
+
+const CardNumberField: React.FC<ICardNumberProps> = (props) => {
+  const { cardNumber, onCardNumberChange, cardNumberError } = props;
 
   return (
-    <TextField label="Credit card number" fullWidth variant="outlined" value={draftCardNumber}
-               onChange={e => setDraftCardNumber(e.target.value)} error={!!cardNumberError}
-               helperText={cardNumberError} onFocus={() => setCardNumberError('')}
+    <TextField label="Credit card number" fullWidth variant="outlined" value={cardNumber}
+               onChange={e => onCardNumberChange(e.target.value.replaceAll(/\D/g, ''))}
+               error={!!cardNumberError}
+               helperText={cardNumberError}
                inputMode="decimal"
                InputProps={{
                  startAdornment: (
