@@ -1,7 +1,10 @@
 import React from 'react';
+import TopBar from './TopBar';
 
 const MenuPage = () => (
-  <div/>
+  <div>
+    <TopBar isMenuMode={true}/>
+  </div>
 );
 
 export default MenuPage;

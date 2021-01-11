@@ -19,7 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TopBar = () => {
+interface ITopBarProps {
+  isMenuMode?: boolean;
+}
+
+const TopBar: React.FC<ITopBarProps> = ({ isMenuMode }) => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -31,7 +35,7 @@ const TopBar = () => {
           <MenuIcon/>
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          Register card form
+          {isMenuMode ? 'Menu' : 'Register card form'}
         </Typography>
       </Toolbar>
     </AppBar>
