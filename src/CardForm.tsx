@@ -6,27 +6,32 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import CardFormModel from './domain/CardFormModel';
+import { isCardNumberValid } from './domain/CardFormModel';
 
 const CardForm = () => {
-  const cardFormModel = new CardFormModel()
   const [draftCardNumber, setDraftCardNumber] = React.useState('');
+  const [cardNumberError, setCardNumberError] = React.useState('');
+
   const [draftCvc, setDraftCvc] = React.useState('');
+  const [cvcError, setCvcError] = React.useState('');
+
   const [draftExpiry, setDraftExpiry] = React.useState('');
+  const [expiryError, setExpiryError] = React.useState('');
 
   const setExpiryFromDisplay = (newValue: string) => {
 
     // Strip all non-digit values from display string
-    newValue = newValue.replaceAll(/\\D/g, '');
+    const strippedValue = newValue.replaceAll(/[^\d/]/g, '');
 
-    const splitExpiry = newValue.split('/');
-    if (splitExpiry.length === 2 && splitExpiry[0] && splitExpiry[1]) {
-      setDraftExpiry(splitExpiry[0].substr(0, 2));
-      // setDraftExpiryYear(splitExpiry[1].substr(0, 4));
-    } else if (splitExpiry.length === 1) {
+    // const splitExpiry = newValue.split('/');
+    setDraftExpiry(strippedValue);
+  };
 
+  const submit = () => {
+    if (!isCardNumberValid(draftCardNumber)) {
+      setCardNumberError('Card number must be a valid number with at least one digit.');
+      return;
     }
-
   };
 
   return (
@@ -34,7 +39,8 @@ const CardForm = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField label="Credit card number" fullWidth variant="outlined" value={draftCardNumber}
-                     onChange={e => setDraftCardNumber(e.target.value)}
+                     onChange={e => setDraftCardNumber(e.target.value)} error={!!cardNumberError}
+                     helperText={cardNumberError} onFocus={() => setCardNumberError('')}
                      InputProps={{
                        startAdornment: (
                          <InputAdornment position="start">
@@ -44,7 +50,9 @@ const CardForm = () => {
                      }}/>
         </Grid>
         <Grid item xs={6}>
-          <TextField label="CVC" fullWidth variant="outlined" value={draftCvc}
+          <TextField label="CVC" fullWidth variant="outlined" value={draftCvc} error={!!cvcError}
+                     helperText={cvcError || 'On rear of card'}
+                     onFocus={() => setCvcError('')}
                      onChange={e => setDraftCvc(e.target.value)}
                      InputProps={{
                        startAdornment: (
@@ -56,6 +64,8 @@ const CardForm = () => {
         </Grid>
         <Grid item xs={6}>
           <TextField label="Expiry" fullWidth variant="outlined" value={draftExpiry}
+                     onFocus={() => setExpiryError('')}
+                     error={!!expiryError} helperText={expiryError || 'MM/YYYY'}
                      onChange={e => setExpiryFromDisplay(e.target.value)}
                      InputProps={{
                        startAdornment: (
@@ -66,7 +76,7 @@ const CardForm = () => {
                      }}/>
         </Grid>
         <Grid item xs={12}>
-          <Button color="primary" variant="contained" fullWidth>Submit</Button>
+          <Button color="primary" variant="contained" fullWidth onClick={submit}>Submit</Button>
         </Grid>
       </Grid>
     </div>
