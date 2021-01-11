@@ -5,8 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import ScheduleIcon from '@material-ui/icons/Schedule';
 import { isCardNumberValid } from './domain/CardFormModel';
+import ExpiryField from './ExpiryField';
 
 const CardForm = () => {
   const [draftCardNumber, setDraftCardNumber] = React.useState('');
@@ -15,17 +15,9 @@ const CardForm = () => {
   const [draftCvc, setDraftCvc] = React.useState('');
   const [cvcError, setCvcError] = React.useState('');
 
-  const [draftExpiry, setDraftExpiry] = React.useState('');
-  const [expiryError, setExpiryError] = React.useState('');
 
-  const setExpiryFromDisplay = (newValue: string) => {
 
-    // Strip all non-digit values from display string
-    const strippedValue = newValue.replaceAll(/[^\d/]/g, '');
 
-    // const splitExpiry = newValue.split('/');
-    setDraftExpiry(strippedValue);
-  };
 
   const submit = () => {
     if (!isCardNumberValid(draftCardNumber)) {
@@ -63,17 +55,7 @@ const CardForm = () => {
                      }}/>
         </Grid>
         <Grid item xs={6}>
-          <TextField label="Expiry" fullWidth variant="outlined" value={draftExpiry}
-                     onFocus={() => setExpiryError('')}
-                     error={!!expiryError} helperText={expiryError || 'MM/YYYY'}
-                     onChange={e => setExpiryFromDisplay(e.target.value)}
-                     InputProps={{
-                       startAdornment: (
-                         <InputAdornment position="start">
-                           <ScheduleIcon/>
-                         </InputAdornment>
-                       )
-                     }}/>
+          <ExpiryField/>
         </Grid>
         <Grid item xs={12}>
           <Button color="primary" variant="contained" fullWidth onClick={submit}>Submit</Button>
