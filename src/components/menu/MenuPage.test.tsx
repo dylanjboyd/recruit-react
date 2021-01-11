@@ -16,12 +16,13 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 test('menu navigates to register', async () => {
+  // Arrange
   renderInRouter('/menu');
 
+  // Act
   fireEvent.click(screen.getByRole('button', { name: 'Go to form' }));
 
+  // Assert
   await waitFor(() => screen.getByRole('dialog'));
-
   expect(screen.getByRole('heading')).toHaveTextContent('Introduce Yourself');
-
 });
