@@ -18,10 +18,10 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route path="/">
+          <Route path="/" exact>
             <RegisterCardForm/>
           </Route>
-          <Route path="/menu">
+          <Route path="/menu" exact>
             <MenuPage/>
           </Route>
         </Switch>
