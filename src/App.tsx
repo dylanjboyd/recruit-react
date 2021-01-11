@@ -1,7 +1,6 @@
 import React from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import RegisterCard from './RegisterCard';
 import lime from '@material-ui/core/colors/lime';
