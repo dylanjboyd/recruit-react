@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card, { isCardNumberValid, isCvcValid, isExpiryValid } from './domain/Card';
 import { registerCard } from './api/recruit-api';
 import SubmissionErrorDialog from './SubmissionErrorDialog';
+import NameDialog from './NameDialog';
 
 const useStyles = makeStyles(({ spacing }) => ({
   welcomeMessage: {
@@ -22,7 +23,7 @@ const EXPIRY_INVALID = 'Expiry date must be valid and complete.';
 const CVC_INVALID = 'CVC must be a valid number';
 
 const CardForm = () => {
-  const user = new User('User');
+  const [user, setUser] = React.useState(new User(''));
 
   const [submissionError, setSubmissionError] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -52,15 +53,15 @@ const CardForm = () => {
     let cvcValid = draftCvc && isCvcValid(Number(draftCvc));
     setCvcError(cvcValid ? '' : CVC_INVALID);
 
-    if (!cardNumberValid || !cvcValid || !expiryValid) return;
+    if (!cardNumberValid || !cvcValid || !expiryValid || !user.firstName) return;
 
-    const card = new Card(draftCardNumber, Number(draftCvc), draftExpiryMonth, draftExpiryYear);
+    const card = new Card(draftCardNumber, Number(draftCvc), draftExpiryMonth, draftExpiryYear, user.firstName);
     setIsSubmitting(true);
     try {
       await registerCard(card);
       resetForm();
     } catch (e) {
-      setSubmissionError(e.toString());
+      setSubmissionError(e.response?.data || e.toString());
     } finally {
       setIsSubmitting(false);
     }
@@ -73,8 +74,13 @@ const CardForm = () => {
       <SubmissionErrorDialog errorMessage={submissionError} retry={submit}
                              isSubmitting={isSubmitting}
                              clearErrorMessage={() => setSubmissionError('')}/>
+
+
+      <NameDialog firstName={user.firstName}
+                  setFirstName={firstName => setUser(new User(firstName))}/>
+
       <Typography variant="h5"
-                  className={classes.welcomeMessage}>Welcome, {user.firstName}.</Typography>
+                  className={classes.welcomeMessage}> Welcome, {user.firstName || 'user'}.</Typography>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <CardNumberField cardNumber={draftCardNumber} cardNumberError={cardNumberError}

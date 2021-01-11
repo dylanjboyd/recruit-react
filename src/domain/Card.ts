@@ -3,12 +3,15 @@ export default class Card {
   cvc: number;
   expiryMonth: number;
   expiryYear: number;
+  name: string;
 
-  constructor(cardNumber: string, cvc: number, expiryMonth: number, expiryYear: number) {
+
+  constructor(cardNumber: string, cvc: number, expiryMonth: number, expiryYear: number, firstName: string) {
     this.cardNumber = cardNumber;
     this.cvc = cvc;
     this.expiryMonth = expiryMonth;
     this.expiryYear = expiryYear;
+    this.name = firstName;
   }
 }
 
