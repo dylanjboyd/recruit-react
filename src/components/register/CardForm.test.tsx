@@ -80,3 +80,11 @@ test('submitting with invalid year shows error', async () => {
   // Assert
   await waitFor(() => screen.getByText(EXPIRY_ERROR));
 });
+
+test('clicking menu button navigates', async () => {
+  // Act
+  fireEvent.click(screen.getByLabelText('menu'));
+
+  // Assert
+  expect(screen.getByRole('heading', { name: /Menu/ })).toBeInTheDocument();
+});
