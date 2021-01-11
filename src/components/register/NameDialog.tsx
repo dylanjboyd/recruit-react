@@ -14,12 +14,12 @@ const NameDialog = () => {
   return <Dialog open={!user.firstName}>
     <DialogTitle>Introduce Yourself</DialogTitle>
     <DialogContent>
-      <TextField variant="outlined" value={draftName}
+      <TextField variant="outlined" value={draftName} id="first-name"
                  onChange={e => setDraftName(e.target.value)} label="First name"/>
     </DialogContent>
     <DialogActions>
       <Button color="secondary" onClick={() => setUser({ firstName: draftName })}
-              disabled={!draftName}>Save</Button>
+              disabled={!draftName} aria-label="save-user">Save</Button>
     </DialogActions>
   </Dialog>
 };

@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { rest } from 'msw'
@@ -11,14 +10,12 @@ const server = setupServer(
   })
 )
 
+beforeEach(() => renderInRouter('/menu'));
 beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 test('menu navigates to register', async () => {
-  // Arrange
-  renderInRouter('/menu');
-
   // Act
   fireEvent.click(screen.getByRole('button', { name: 'Go to form' }));
 
