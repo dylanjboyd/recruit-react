@@ -21,7 +21,7 @@ const useStyles = makeStyles(({ spacing }) => ({
 
 const CARD_NUMBER_INVALID = 'Card number must be a valid number with at least one digit.';
 const EXPIRY_INVALID = 'Expiry date must be valid and complete.';
-const CVC_INVALID = 'CVC must be a valid number';
+const CVC_INVALID = 'CVC must be a valid number.';
 
 const CardForm = () => {
   const { user } = React.useContext(UserContext);
