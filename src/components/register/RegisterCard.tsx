@@ -1,5 +1,5 @@
 import React from 'react';
-import TopBar from './TopBar';
+import TopBar from '../common/TopBar';
 import CardForm from './CardForm';
 import { makeStyles } from '@material-ui/core/styles';
 

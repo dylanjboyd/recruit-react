@@ -6,12 +6,12 @@ import CardNumberField from './CardNumberField';
 import CvcField from './CvcField';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
-import User from './domain/User';
 import { makeStyles } from '@material-ui/core/styles';
-import Card, { isCardNumberValid, isCvcValid, isExpiryValid } from './domain/Card';
-import { registerCard } from './api/recruit-api';
+import Card, { isCardNumberValid, isCvcValid, isExpiryValid } from '../../domain/Card';
+import { registerCard } from '../../api/recruit-api';
 import SubmissionErrorDialog from './SubmissionErrorDialog';
 import NameDialog from './NameDialog';
+import { UserContext } from '../../user-context';
 
 const useStyles = makeStyles(({ spacing }) => ({
   welcomeMessage: {
@@ -24,7 +24,7 @@ const EXPIRY_INVALID = 'Expiry date must be valid and complete.';
 const CVC_INVALID = 'CVC must be a valid number';
 
 const CardForm = () => {
-  const [user, setUser] = React.useState(new User(''));
+  const { user } = React.useContext(UserContext);
   const [isSnackbarOpen, setSnackbarOpen] = React.useState(false);
 
   const [submissionError, setSubmissionError] = React.useState('');
@@ -96,8 +96,7 @@ const CardForm = () => {
                              clearErrorMessage={() => setSubmissionError('')}/>
 
 
-      <NameDialog firstName={user.firstName}
-                  setFirstName={firstName => setUser(new User(firstName))}/>
+      <NameDialog/>
 
       <Snackbar open={isSnackbarOpen} autoHideDuration={6000}
                 onClose={() => setSnackbarOpen(false)} message="Credit card registered."/>
