@@ -1,50 +1,27 @@
 # Frontend
-Create a one page application following the LO-FIs given in this assignment.
 
-We suggest to use create-react-app typescript for your setup.
+This Recruit front-end site has been implemented using:
 
-## LO-FI
-Remember these are LO-FI and should only be treated as such.
-![lofi](https://raw.githubusercontent.com/runekr/recruit-react/master/lofi.png)
+- create-react-app for setting up React's core files and dependencies.
+- Material-UI for theming and most components in the site.
+- react-router-dom for navigation and routing.
+- axios for making HTTP requests.
+- React Testing Library and Jest for testing.
 
-## Spec
-These are the only functional requirements for your implementation:
+Note: Without a running Recruit back-end, the site will load but you will be unable to register credit cards.
 
-### Navigation
-- Click on burger icon shows menu
-- Click on back shows register card form 
+## Setup
 
-### Inputs
-- Credit card field is any number
-- CVC is any number
-- Expires is any valid date
+Run `npm install` in the project directory to pull down dependencies. To run on your development environment without
+performing a full build, run `npm start`. Changes will hot-reload.
 
-### Submit
-- You cannot submit until input fields
-- When submitting then console log the input values
+To first perform a full build, run `npm run build` and deploy as desired.
 
-## Commits
-Please commit frequently to communicate your thoughts while working on this assignment.
+This site can be configured to point to a different back-end URL (but will otherwise default to the default URL). To do
+so, set the `REACT_APP_API_BASE_URL` to the URL of a running Recruit back-end *including the trailing slash*. If no
+modifications have been made to the back-end's default configuration, this will be `https://localhost:5001/`.
 
-## What is valued
-- Tests
-- Clean Code
-- State Management
-- Design (Responsive)
-- Accessibility
+## Testing
 
-## Duration
-Use roughly 3 hours on this assignment. You are only expected to do work on this assignment that matches the skill level of the role you are applying for, but you are welcome to do as much as you like. You are not necessarily expected to do everything in this assignment because of the short time duration of the assignment.
-
-## Tools
-You are encouraged to use anything you can find on the internet except from other people's solution to this assignment. 
-
-## Tech
-You need to use at least these: 
-
-- React
-- Typescript
-
-# Backend
-
-[Backend test instructions](https://github.com/alessandromoura/recruit-backend)
+To run all tests via the command line, run `npm test`. In an interactive session, press `a` to run all tests if this
+does not happen automatically.
